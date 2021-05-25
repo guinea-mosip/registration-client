@@ -6,16 +6,14 @@ on:
     types: [closed]
   push:
     branches:
-      - master
-      - 1.*
-      - develop
+      - dev
   
 jobs:
   
   build_client:
     runs-on: ubuntu-latest
     env:
-      NAMESPACE: mosipdev
+      NAMESPACE: ${{ secrets.dev_namespace_docker_hub }}
       SERVICE_NAME: registration-client
       SERVICE_LOCATION: registration
 
@@ -33,16 +31,16 @@ jobs:
       run: |
         # Strip git ref prefix from version
         echo "BRANCH_NAME=$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')" >> $GITHUB_ENV
-        echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
+#        echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
 
     - name: Setup branch and GPG public key
       run: |
         # Strip git ref prefix from version
         echo ${{ env.BRANCH_NAME }}
-        echo ${{ env.GPG_TTY }}
-        sudo apt-get --yes install gnupg2
-        gpg2 --import ./.github/keys/mosipgpgkey_pub.gpg
-        gpg2 --quiet --batch --passphrase=${{secrets.gpg_secret}}  --allow-secret-key-import --import ./.github/keys/mosipgpgkey_sec.gpg
+#        echo ${{ env.GPG_TTY }}
+#        sudo apt-get --yes install gnupg2
+#        gpg2 --import ./.github/keys/mosipgpgkey_pub.gpg
+#        gpg2 --quiet --batch --passphrase=${{secrets.gpg_secret}}  --allow-secret-key-import --import ./.github/keys/mosipgpgkey_sec.gpg
 
 #    - uses: actions/cache@v1
 #      with:
@@ -62,7 +60,7 @@ jobs:
     - name: Build with Maven
       run: |
         cd registration
-        mvn clean install -U -s $GITHUB_WORKSPACE/settings.xml -DskipTests --file pom.xml
+        mvn clean install -U -s $GITHUB_WORKSPACE/settings.xml -DskipTests -Dgpg.skip=true --file pom.xml
 
     - name: Get version info from pom
       id: getPomVersion
@@ -92,17 +90,17 @@ jobs:
         docker tag $SERVICE_NAME $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
-    - name: Publish the maven package
-      run: |
-        cd registration
-        mvn deploy -DskipTests -DaltDeploymentRepository=ossrh::default::${{ secrets.RELEASE_URL }} -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
-      env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        GPG_TTY: $(tty)
-    - name: Analyze with SonarCloud
-      run: |
-        cd registration
-        mvn clean -B verify sonar:sonar -Dsonar.projectKey=${{ secrets.PROJECT_KEY }} -Dsonar.organization=${{ secrets.ORG_KEY }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#    - name: Publish the maven package
+#      run: |
+#        cd registration
+#        mvn deploy -DskipTests -DaltDeploymentRepository=ossrh::default::${{ secrets.RELEASE_URL }} -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+#        GPG_TTY: $(tty)
+#    - name: Analyze with SonarCloud
+#      run: |
+#        cd registration
+#        mvn clean -B verify sonar:sonar -Dsonar.projectKey=${{ secrets.PROJECT_KEY }} -Dsonar.organization=${{ secrets.ORG_KEY }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
