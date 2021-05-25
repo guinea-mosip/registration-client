@@ -87,7 +87,7 @@ jobs:
         VERSION=$BRANCH_NAME
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        echo "Command: docker tag ${{SERVICE_NAME}} ${{IMAGE_ID}}:${{VERSION}}"
+        echo Command: docker tag $SERVICE_NAME $IMAGE_ID:$VERSION
         docker tag $SERVICE_NAME $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
