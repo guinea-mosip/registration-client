@@ -23,7 +23,7 @@ echo "mosip.reg.rollback.path=../BackUp" >> /registration-libs/target/props/mosi
 echo "mosip.reg.cerpath=/cer/mosip_cer.cer" >> /registration-libs/target/props/mosip-application.properties
 echo "mosip.reg.dbpath=db/reg" >> /registration-libs/target/props/mosip-application.properties
 echo "mosip.reg.xml.file.url=${client_upgrade_server}/registration-client/maven-metadata.xml" >> /registration-libs/target/props/mosip-application.properties
-echo "mosip.reg.client.tpm.availability=Y" >> /registration-libs/target/props/mosip-application.properties
+echo "mosip.reg.client.tpm.availability=N" >> /registration-libs/target/props/mosip-application.properties
 echo "mosip.client.upgrade.server.url=${client_upgrade_server}" >> /registration-libs/target/props/mosip-application.properties
 
 echo "created mosip-application.properties"
