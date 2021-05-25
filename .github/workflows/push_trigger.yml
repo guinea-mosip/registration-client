@@ -13,7 +13,7 @@ jobs:
   build_client:
     runs-on: ubuntu-latest
     env:
-      NAMESPACE: ${{ secrets.dev_namespace_docker_hub }}
+      NAMESPACE: ${{secrets.dev_namespace_docker_hub}}
       SERVICE_NAME: registration-client
       SERVICE_LOCATION: registration
 
