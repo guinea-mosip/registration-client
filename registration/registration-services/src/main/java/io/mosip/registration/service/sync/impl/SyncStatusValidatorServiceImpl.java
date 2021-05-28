@@ -483,7 +483,7 @@ public class SyncStatusValidatorServiceImpl extends BaseService implements SyncS
 		GlobalParam globalParam = globalParamDAO.get(globalParamId);
 
 		String isSoftwareAvailable = "N";
-		if (null != globalParam.getUpdDtimes()) {
+		if (globalParam != null && null != globalParam.getUpdDtimes()) {
 			Date lastSoftwareUpdatedTime = new Date(globalParam.getUpdDtimes().getTime());
 
 			try {

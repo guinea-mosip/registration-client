@@ -225,6 +225,7 @@ public class DemographicDetailController extends BaseController {
 			int position = parentFlow.size() - 1;
 
 			templateGroup = getTemplateGroupMap();
+
 			for (Entry<String, List<UiSchemaDTO>> templateGroupEntry : templateGroup.entrySet()) {
 
 				List<UiSchemaDTO> list = templateGroupEntry.getValue();
@@ -1749,6 +1750,5 @@ public class DemographicDetailController extends BaseController {
 			}
 		}
 		return templateGroupMap;
-
 	}
 }
