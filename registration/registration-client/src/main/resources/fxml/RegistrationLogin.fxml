@@ -121,14 +121,16 @@
 		</AnchorPane>
 	</right>
    <bottom>
-		<HBox id="footer-section">
-			<children>
-				<Label text="%mosip.io" />
-				<Label text="  " />
-				<Label text="%regClientVersion" />
-				<Label text=" : " />
-				<Label fx:id="versionValueLabel" />
-			</children>
-		</HBox>
+	   <GridPane prefHeight="17.0" prefWidth="495.0" styleClass="bottomFooterLogin">
+		   <HBox id="footer-section" prefHeight="0.0" prefWidth="1300.0">
+				<children>
+					<Label prefHeight="17.0" prefWidth="60.0" styleClass="whiteColor" text="%mosip.io" />
+					<Label text="  " />
+					<Label prefHeight="17.0" prefWidth="40.0" styleClass="whiteColor" text="%regClientVersion" />
+					<Label text=" : " />
+					<Label fx:id="versionValueLabel" prefHeight="17.0" prefWidth="100.0" styleClass="whiteColor" />
+				</children>
+			</HBox>
+	   </GridPane>
 	</bottom>
 </BorderPane>
