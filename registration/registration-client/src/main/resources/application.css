@@ -223,6 +223,7 @@
 	-fx-padding: 10.0 10.0 10.0 10.0;
 	-fx-border-width: 1.0;
 	-fx-border-color: #E8E8E8 transparent transparent transparent;
+/*	-fx-border-color: ##020F59 transparent transparent transparent;*/
 	-fx-background-color: #dee2e6;
 }
 
@@ -420,8 +421,10 @@
 	-fx-background-color: #ffffff;
 	-fx-background-radius: 6.0, 5.0;
 	-fx-background-insets: 0.0, 1.0;
-	-fx-text-fill: #ffffff;
+/*	-fx-text-fill: #ffffff; */
+    -fx-text-fill: #020F59;
 	-fx-font-size: 10.0px;
+	-fx-font-weight: bold;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
 		0.0, 0.0, 1.0);
 }
@@ -438,7 +441,7 @@
 		0.0, 0.0, 1.0);
 }
 
-.loginSubmitStyle:hover {
+/* .loginSubmitStyle:hover {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -448,6 +451,16 @@
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
+} */
+.loginSubmitStyle:hover {
+	-fx-background-color:#FFFFFF;
+	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
+}
+.loginSubmitStyle:pressed {
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
 }
 
 .loginSubmitStyle1:hover {
@@ -548,7 +561,8 @@ Working on new Css by taleev
 }
 
 #header-section {
-	-fx-background-color: rgb(11.0, 106.0, 130.0, 0.3);
+/*	-fx-background-color: rgb(11.0, 106.0, 130.0, 0.3); */
+	-fx-background-color: #020F59;
 	-fx-pref-height: 30.0px;
 	-fx-pref-width: 1920.0px;
 }
@@ -609,7 +623,8 @@ Working on new Css by taleev
 .loginSubmitStyle {
 	-fx-pref-height: 35.0px;
 	-fx-pref-width: 312.0px;
-	-fx-background-color: #005baa
+/*	-fx-background-color: #005baa */
+    -fx-background-color: #BCE0FD
 }
 
 .loginOtpValidStyle {
@@ -2336,4 +2351,12 @@ Working on new Css by taleev
 
 #alertImage {
 	-fx-background-size: 90.0px 90.0px;
+}
+
+.bottomFooterLogin{
+	-fx-background-color: #020F59;
+}
+
+.whiteColor{
+-fx-text-fill: #FFFFFF;
 }
