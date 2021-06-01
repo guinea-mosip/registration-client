@@ -18,6 +18,9 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import org.mvel2.MVEL;
 import org.mvel2.integration.VariableResolverFactory;
@@ -130,8 +133,8 @@ public class DemographicDetailController extends BaseController {
 	private AnchorPane keyboardPane;
 	@FXML
 	public TextField preRegistrationId;
-	@FXML
-	public Label languageLabelLocalLanguage;
+//	@FXML
+//	public Label languageLabelLocalLanguage;
 
 	private boolean isChild;
 	private Node keyboardNode;
@@ -185,7 +188,7 @@ public class DemographicDetailController extends BaseController {
 		String localLanguageTextVal = isLocalLanguageAvailable() && !isAppLangAndLocalLangSame()
 				? localProperties.getString("language")
 				: RegistrationConstants.EMPTY;
-		languageLabelLocalLanguage.setText(localLanguageTextVal);
+//		languageLabelLocalLanguage.setText(localLanguageTextVal);
 
 		if (isLocalLanguageAvailable() && !isAppLangAndLocalLangSame()) {
 			vk = VirtualKeyboard.getInstance();
@@ -229,14 +232,25 @@ public class DemographicDetailController extends BaseController {
 			for (Entry<String, List<UiSchemaDTO>> templateGroupEntry : templateGroup.entrySet()) {
 
 				List<UiSchemaDTO> list = templateGroupEntry.getValue();
-				if (list.size() <= 4) {
-					addGroupInUI(list, position, templateGroupEntry.getKey() + position);
+				/* Changing the layout to 2 columns */
+//				if (list.size() <= 4) {
+//					addGroupInUI(list, position, templateGroupEntry.getKey() + position);
+//				} else {
+//					for (int index = 0; index <= list.size() / 4; index++) {
+//
+//						int toIndex = ((index * 4) + 3) <= list.size() - 1 ? ((index * 4) + 4) : list.size();
+//						List<UiSchemaDTO> subList = list.subList(index * 4, toIndex);
+//						addGroupInUI(subList, position, templateGroupEntry.getKey() + position);
+//					}
+//				}
+				if (list.size() <= 2) {
+					addGroupInUI(list, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
 				} else {
-					for (int index = 0; index <= list.size() / 4; index++) {
+					for (int index = 0; index <= list.size() / 2; index++) {
 
-						int toIndex = ((index * 4) + 3) <= list.size() - 1 ? ((index * 4) + 4) : list.size();
-						List<UiSchemaDTO> subList = list.subList(index * 4, toIndex);
-						addGroupInUI(subList, position, templateGroupEntry.getKey() + position);
+						int toIndex = ((index * 2) + 1) <= list.size() - 1 ? ((index * 2) + 2) : list.size();
+						List<UiSchemaDTO> subList = list.subList(index * 2, toIndex);
+						addGroupInUI(subList, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
 					}
 				}
 			}
@@ -281,12 +295,47 @@ public class DemographicDetailController extends BaseController {
 		}
 	}
 
-	private void addGroupInUI(List subList, int position, String gridPaneId) {
+//	private void addGroupInUI(List subList, int position, String gridPaneId) {
+//		GridPane groupGridPane = new GridPane();
+//		groupGridPane.setId(gridPaneId);
+//
+//		addGroupContent(subList, groupGridPane);
+//		parentFlowPane.getChildren().add(groupGridPane);
+//
+//		//parentFlow.add(groupGridPane);
+//		//position++;
+//		//positionTracker.put(groupGridPane.getId(), position);
+//	}
+
+	private void addGroupInUI(List subList, int position, String gridPaneId, String templateName) {
 		GridPane groupGridPane = new GridPane();
 		groupGridPane.setId(gridPaneId);
 
 		addGroupContent(subList, groupGridPane);
-		parentFlowPane.getChildren().add(groupGridPane);
+
+		String templateId = templateName.replaceAll(" ", "")+"_layout";
+		GridPane templatePane = (GridPane) parentFlowPane.lookup("#"+templateId);
+		System.out.println(parentFlowPane.lookup("#"+templateId));
+		if (templatePane == null){
+			templatePane = new GridPane();
+			templatePane.setId(templateId);
+			templatePane.setStyle("-fx-border-color:#020F59;");
+			templatePane.setPadding(new Insets(20, 0, 20, 0));
+			parentFlowPane.getChildren().add(templatePane);
+			parentFlowPane.setMargin( templatePane, new Insets( 30, 0, 0, 0 ) );
+
+			/* Adding label */
+			Label label = new Label(templateName);
+			label.getStyleClass().add("demoGraphicCustomLabel");
+//			label.setFont(Font.font("", FontWeight.EXTRA_BOLD, 16));
+//			label.setTextFill(Color.valueOf("#020F59"));
+			label.setPadding(new Insets(0, 0, 10, 55));
+			label.setPrefWidth(1200);
+			templatePane.add(label, 0, 0);
+		}
+		int childs = templatePane.getRowCount();
+		templatePane.add(groupGridPane, 0, childs);
+
 
 		//parentFlow.add(groupGridPane);
 		//position++;
