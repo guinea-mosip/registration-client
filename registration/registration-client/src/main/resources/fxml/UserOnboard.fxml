@@ -132,7 +132,7 @@
                         </HBox>
                      </children>
                   </GridPane>
-                  <GridPane fx:id="syncDataGridPane" onMouseClicked="#synchronizingData" styleClass="operationalPaneDetailsBioUpdate" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <GridPane fx:id="syncDataGridPane" onMouseClicked="#synchronizingData" styleClass="UserOnboardLoginSection" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -207,7 +207,7 @@
                         </HBox>
                      </children>
                   </GridPane>
-                  <GridPane fx:id="updateBiometricsGridPane" onMouseClicked="#updatingBiometrics" styleClass="operationalPaneDetailsBioUpdate" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                  <GridPane fx:id="updateBiometricsGridPane" onMouseClicked="#updatingBiometrics" styleClass="UserOnboardLoginSection" GridPane.columnIndex="3" GridPane.rowIndex="2">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />

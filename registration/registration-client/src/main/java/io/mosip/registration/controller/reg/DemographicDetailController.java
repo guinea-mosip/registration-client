@@ -799,6 +799,7 @@ public class DemographicDetailController extends BaseController {
 
 	public <T> VBox addContentWithComboBoxObject(String fieldName, UiSchemaDTO schema, String languageType) {
 		ComboBox<GenericDto> field = new ComboBox<GenericDto>();
+		field.setMaxSize(510, 30);
 		Label label = new Label();
 		Label validationMessage = new Label();
 		StringConverter<T> uiRenderForComboBox = fxUtils.getStringConverterForComboBox();

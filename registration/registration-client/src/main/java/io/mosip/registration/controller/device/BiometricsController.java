@@ -400,12 +400,12 @@ public class BiometricsController extends BaseController /* implements Initializ
 			registrationNavlabel.setVisible(false);
 			backButton.setVisible(false);
 			gheaderfooter.setVisible(false);
-			continueBtn.setText("SAVE");
+			continueBtn.setText(applicationLabelBundle.getString("save"));
 		} else {
 			registrationNavlabel.setVisible(true);
 			backButton.setVisible(true);
 			gheaderfooter.setVisible(true);
-			continueBtn.setText("CONTINUE");
+			continueBtn.setText(applicationLabelBundle.getString("continue"));
 		}
 
 		checkBoxPane.getChildren().clear();
@@ -636,7 +636,7 @@ public class BiometricsController extends BaseController /* implements Initializ
 				subTypeLabel.setText(getMapOfbiometricSubtypes().get(currentSubType));
 			} else {
 
-				subTypeLabel.setText("Operator/Supervisor Biometrics");
+				subTypeLabel.setText(applicationLabelBundle.getString("operatorOrSupervisorBiometric"));
 			}
 
 		}

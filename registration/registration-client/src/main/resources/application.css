@@ -222,7 +222,7 @@
 	-fx-alignment: center;
 	-fx-padding: 10.0 10.0 10.0 10.0;
 	-fx-border-width: 1.0;
-	-fx-border-color: #020F59 transparent transparent transparent;
+	-fx-border-color: #E8E8E8 transparent transparent transparent;
 	-fx-background-color: #dee2e6;
 }
 
@@ -422,6 +422,7 @@
 	-fx-background-insets: 0.0, 1.0;
 	-fx-text-fill: #020F59;
 	-fx-font-size: 10.0px;
+	-fx-font-weight: bold;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
 	0.0, 0.0, 1.0);
 }
@@ -1795,13 +1796,25 @@ Working on new Css by taleev
 	-fx-background-color: #FFFFFF;
 }
 
-.uinUpdateStyle:hover, .uinUpdateStyle:hover .label {
+.uinUpdateStyle:hover {
 	-fx-background-color:#BCE0FD;
 	-fx-border-color: #020F59;
 	-fx-text-fill: #020F59;
 }
 
-.uinUpdateStyle:pressed, .uinUpdateStyle:pressed .label {
+.uinUpdateStyle:hover .label {
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #BCE0FD;
+	-fx-text-fill: #020F59;
+}
+
+.uinUpdateStyle:pressed {
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #BCE0FD;
+	-fx-text-fill: #020F59;
+}
+
+.uinUpdateStyle:pressed .label {
 	-fx-background-color:#BCE0FD;
 	-fx-border-color: #BCE0FD;
 	-fx-text-fill: #020F59;
@@ -1823,17 +1836,31 @@ Working on new Css by taleev
 	-fx-background-radius: 4.0 4.0 0.0 0.0;
 }
 
-.operationalPaneDetailsSync:hover, .operationalPaneDetailsSync:hover .label
+.operationalPaneDetailsSync:hover
 {
 	-fx-background-color:#BCE0FD;
 	-fx-border-color: #020F59;
 	-fx-text-fill: #020F59;
 }
 
-.operationalPaneDetailsSync:pressed, .operationalPaneDetailsSync:pressed .label
+.operationalPaneDetailsSync:hover .label
+{
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #BCE0FD;
+	-fx-text-fill: #020F59;
+}
+
+.operationalPaneDetailsSync:pressed
 {
 	-fx-background-color:#BCE0FD;
 	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
+}
+
+.operationalPaneDetailsSync:pressed .label
+{
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #BCE0FD;
 	-fx-text-fill: #020F59;
 }
 
@@ -1896,17 +1923,30 @@ Working on new Css by taleev
 	-fx-background-radius: 0.0 0.0 4.0 4.0;
 }
 
-.operationalPaneDetailsBioUpdate:hover, .operationalPaneDetailsBioUpdate:hover .label
+.operationalPaneDetailsBioUpdate:hover
+{
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
+}
+
+.operationalPaneDetailsBioUpdate:hover .label
 {
 	-fx-background-color:#BCE0FD;
 	-fx-border-color: #BCE0FD;
 	-fx-text-fill: #020F59;
 }
 
-.operationalPaneDetailsBioUpdate:pressed,
-.operationalPaneDetailsBioUpdate:pressed .label {
+.operationalPaneDetailsBioUpdate:pressed
+{
 	-fx-background-color:#BCE0FD;
 	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
+}
+
+.operationalPaneDetailsBioUpdate:pressed .label {
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #BCE0FD;
 	-fx-text-fill: #020F59;
 }
 
@@ -2059,6 +2099,10 @@ Working on new Css by taleev
 	-fx-text-fill: #020F59;
 	-fx-border-color: #BCE0FD;
 	-fx-font-size: 12.0px;
+    -fx-padding : 1.0 0.0 1.0 -20.0;
+    -fx-background-color :#BCE0FD;
+    -fx-background-insets: 0.0 0.0 0.0 -20.0;
+    -fx-border-insets: 0 0.0 0.0 -20.0;
 }
 
 .onboardScanBtn:hover {
@@ -2393,4 +2437,34 @@ Working on new Css by taleev
 	-fx-text-fill: #020F59;
 	-fx-font-size: 1.5em;
 	-fx-font-weight: 800;
+}
+
+.bottomFooterLogin{
+	-fx-background-color: #020F59;
+}
+
+.whiteColor{
+-fx-text-fill: #FFFFFF;
+}
+
+.UserOnboardLoginSection {
+	-fx-border-width: 0.0 1.0 1.0 1.0;
+	-fx-border-color: #020F59;
+	-fx-background-color: #FFFFFF;
+	-fx-border-radius: 0.0 0.0 4.0 4.0;
+	-fx-background-radius: 0.0 0.0 4.0 4.0;
+}
+
+.UserOnboardLoginSection:hover, .UserOnboardLoginSection:hover .label
+{
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
+}
+
+.UserOnboardLoginSection:pressed, .UserOnboardLoginSection:pressed .label
+{
+	-fx-background-color:#BCE0FD;
+	-fx-border-color: #020F59;
+	-fx-text-fill: #020F59;
 }
