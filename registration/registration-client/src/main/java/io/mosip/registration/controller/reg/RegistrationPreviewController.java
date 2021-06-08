@@ -85,6 +85,10 @@ public class RegistrationPreviewController extends BaseController implements Ini
 		Image backImage = new Image(getClass().getResourceAsStream(RegistrationConstants.BACK));
 
 		backBtn.hoverProperty().addListener((ov, oldValue, newValue) -> {
+			//INFO fixed null pointer
+			if(backImageView == null){
+				backImageView = new ImageView();
+			}
 			if (newValue) {
 				backImageView.setImage(backInWhite);
 			} else {
@@ -92,10 +96,10 @@ public class RegistrationPreviewController extends BaseController implements Ini
 			}
 		});
 
-		nextButton.setDisable(true);
-
-		String key = RegistrationConstants.REG_CONSENT + applicationContext.getApplicationLanguage();
-		consentText = getValueFromApplicationContext(key);
+		nextButton.setDisable(false);
+		/* Removing consent */
+//		String key = RegistrationConstants.REG_CONSENT + applicationContext.getApplicationLanguage();
+//		consentText = getValueFromApplicationContext(key);
 
 		if (getRegistrationDTOFromSession() != null && getRegistrationDTOFromSession().getSelectionListDTO() != null) {
 
@@ -110,6 +114,9 @@ public class RegistrationPreviewController extends BaseController implements Ini
 			registrationNavlabel.setText(
 					ApplicationContext.applicationLanguageBundle().getString(RegistrationConstants.LOSTUINLBL));
 		}
+		//Binding the Enter key to button
+		backBtn.defaultButtonProperty().bind(backBtn.focusedProperty());
+		nextButton.defaultButtonProperty().bind(nextButton.focusedProperty());
 	}
 
 	@FXML
@@ -167,7 +174,8 @@ public class RegistrationPreviewController extends BaseController implements Ini
 	public void goToNextPage(ActionEvent event) {
 		auditFactory.audit(AuditEvent.REG_PREVIEW_SUBMIT, Components.REG_PREVIEW, SessionContext.userId(),
 				AuditReferenceIdTypes.USER_ID.getReferenceTypeId());
-		if (getRegistrationDTOFromSession().getRegistrationMetaDataDTO().getConsentOfApplicant() != null) {
+		// Removed consent
+//		if (getRegistrationDTOFromSession().getRegistrationMetaDataDTO().getConsentOfApplicant() != null) {
 			if (getRegistrationDTOFromSession().getSelectionListDTO() != null) {
 				SessionContext.map().put(RegistrationConstants.UIN_UPDATE_REGISTRATIONPREVIEW, false);
 				SessionContext.map().put(RegistrationConstants.UIN_UPDATE_OPERATORAUTHENTICATIONPANE, true);
@@ -177,9 +185,9 @@ public class RegistrationPreviewController extends BaseController implements Ini
 						getPageByAction(RegistrationConstants.REGISTRATION_PREVIEW, RegistrationConstants.NEXT));
 			}
 			registrationController.goToAuthenticationPage();
-		} else {
-			nextButton.setDisable(false);
-		}
+//		} else {
+//			nextButton.setDisable(false);
+//		}
 	}
 
 	public void setUpPreviewContent() {
@@ -194,7 +202,8 @@ public class RegistrationPreviewController extends BaseController implements Ini
 			}
 
 			if (ackTemplateText != null && !ackTemplateText.isEmpty()) {
-				templateGenerator.setConsentText(consentText);
+				/* Removed consent */
+//				templateGenerator.setConsentText(consentText);
 				ResponseDTO templateResponse = templateGenerator.generateTemplate(ackTemplateText,
 						getRegistrationDTOFromSession(), templateManagerBuilder,
 						RegistrationConstants.TEMPLATE_PREVIEW);
@@ -227,11 +236,11 @@ public class RegistrationPreviewController extends BaseController implements Ini
 		if (document == null) {
 			return;
 		}
-
-		Element yes = document.getElementById(RegistrationConstants.REG_CONSENT_YES);
-		Element no = document.getElementById(RegistrationConstants.REG_CONSENT_NO);
-		((EventTarget) yes).addEventListener(RegistrationConstants.CLICK, event -> enableConsent(), false);
-		((EventTarget) no).addEventListener(RegistrationConstants.CLICK, event -> disableConsent(), false);
+		/* Removed consent */
+//		Element yes = document.getElementById(RegistrationConstants.REG_CONSENT_YES);
+//		Element no = document.getElementById(RegistrationConstants.REG_CONSENT_NO);
+//		((EventTarget) yes).addEventListener(RegistrationConstants.CLICK, event -> enableConsent(), false);
+//		((EventTarget) no).addEventListener(RegistrationConstants.CLICK, event -> disableConsent(), false);
 
 		List<String> modifyElements = new ArrayList<>();
 		modifyElements.add(RegistrationConstants.MODIFY_DEMO_INFO);
