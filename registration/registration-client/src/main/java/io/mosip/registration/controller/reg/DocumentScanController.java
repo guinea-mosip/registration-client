@@ -324,7 +324,7 @@ public class DocumentScanController extends BaseController {
 			selectScannerLabel.setPrefWidth(180);
 			selectScannerLabel.getStyleClass().add(RegistrationConstants.BUTTONS_LABEL);
 			ComboBox<String> scannerComboBox = new ComboBox<>();
-			scannerComboBox.setPrefWidth(docScanVbox.getWidth() / 2);
+			scannerComboBox.setPrefWidth(docScanVbox.getWidth() / 4);
 			scannerComboBox.getStyleClass().add(RegistrationConstants.DOC_COMBO_BOX);
 			scannerComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 				selectedScanDeviceName = newValue;
@@ -394,7 +394,8 @@ public class DocumentScanController extends BaseController {
 			if (documentCategoryDtos != null && !documentCategoryDtos.isEmpty()) {
 				HBox hBox = new HBox();
 				ComboBox<DocumentCategoryDto> comboBox = new ComboBox<>();
-				comboBox.setPrefWidth(docScanVbox.getWidth() / 2);
+				comboBox.setPrefWidth(docScanVbox.getWidth() / 3);
+				comboBox.setMaxWidth(docScanVbox.getWidth() / 3);
 				comboBox.setId(documentCategory.getId());
 
 				/*
@@ -409,7 +410,7 @@ public class DocumentScanController extends BaseController {
 				comboBox.getStyleClass().add(RegistrationConstants.DOC_COMBO_BOX);
 				Label documentLabel = new Label(docCategoryName);
 				documentLabel.getStyleClass().add(RegistrationConstants.DEMOGRAPHIC_FIELD_LABEL);
-				documentLabel.setPrefWidth(docScanVbox.getWidth() / 2);
+				documentLabel.setPrefWidth(docScanVbox.getWidth() / 4);
 				documentLabel.setVisible(false);
 				comboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 					documentLabel.setVisible(true);

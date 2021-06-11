@@ -120,7 +120,7 @@ public class DemographicDetailController extends BaseController {
 	private DemographicChangeActionHandler demographicChangeActionHandler;
 
 	@FXML
-	private FlowPane parentFlowPane;
+	private GridPane parentFlowPane;
 	@FXML
 	private GridPane scrollParentPane;
 	@FXML
@@ -319,10 +319,13 @@ public class DemographicDetailController extends BaseController {
 		if (templatePane == null){
 			templatePane = new GridPane();
 			templatePane.setId(templateId);
-			templatePane.setStyle("-fx-border-color:#020F59;");
+			templatePane.getStyleClass().add("preRegParentPaneSection");
 			templatePane.setPadding(new Insets(20, 0, 20, 0));
-			parentFlowPane.getChildren().add(templatePane);
-			parentFlowPane.setMargin( templatePane, new Insets( 30, 0, 0, 0 ) );
+			int rowCount = parentFlowPane.getRowCount();
+			parentFlowPane.addRow(rowCount);
+			parentFlowPane.add(templatePane, 1, rowCount);
+	//		parentFlowPane.getChildren().add(templatePane);
+			parentFlowPane.setMargin( templatePane, new Insets( 10, 0, 0, 0 ) );
 
 			/* Adding label */
 			Label label = new Label(templateName);
@@ -799,6 +802,7 @@ public class DemographicDetailController extends BaseController {
 
 	public <T> VBox addContentWithComboBoxObject(String fieldName, UiSchemaDTO schema, String languageType) {
 		ComboBox<GenericDto> field = new ComboBox<GenericDto>();
+		field.setMaxSize(500, 30);
 		Label label = new Label();
 		Label validationMessage = new Label();
 		StringConverter<T> uiRenderForComboBox = fxUtils.getStringConverterForComboBox();

@@ -35,9 +35,9 @@
 					<children>
 						<GridPane>
 							<columnConstraints>
-								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
-								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
 							</columnConstraints>
 							<rowConstraints>
 								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -53,64 +53,73 @@
 									<children>
 										<GridPane fx:id="scrollParentPane" styleClass="parentScrollPane">
 											<columnConstraints>
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" percentWidth="100.0"/>
 											</columnConstraints>
 											<rowConstraints>
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" percentHeight="100.0"/>
 											</rowConstraints>
 											<children>
 												<ScrollPane fx:id="parentScrollPane" prefHeight="${scrollParentPane.height}" prefWidth="${scrollParentPane.width}">
 													<content>
 														<AnchorPane fx:id="keyboardPane" maxHeight="200" styleClass="paneAtDisplayDemoGraphic">
 															<children>
-																<FlowPane fx:id="parentFlowPane" prefWidth="${scrollParentPane.width}" styleClass="paneAtDisplayDemoGraphic">
+																<FlowPane  maxWidth="${scrollParentPane.width}" prefWidth="${scrollParentPane.width}" styleClass="paneAtDisplayDemoGraphic">
 																	<children>
-																		<GridPane fx:id="preRegParentPane" prefHeight="80.0" prefWidth="1200" style="-fx-border-color:#020F59;">
+																		<GridPane fx:id="parentFlowPane" maxWidth="${scrollParentPane.width}" prefWidth="${scrollParentPane.width}">
+																			<columnConstraints>
+																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="2.0" prefWidth="100.0" />
+																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="96.0" prefWidth="100.0" />
+																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="2.0" prefWidth="100.0" />
+																			</columnConstraints>
 																			<children>
-																				<GridPane GridPane.columnIndex="1">
+																				<GridPane fx:id="preRegParentPane" prefHeight="80.0"  GridPane.columnIndex="1" prefWidth="${parentFlowPane.width}" maxWidth="${parentFlowPane.width}" styleClass="preRegParentPaneSection">
 																					<children>
-																						<Label fx:id="preRegistrationLabel" styleClass="demoGraphicCustomLabel" text="%search_for_Pre_registration_id" GridPane.rowIndex="1" />
-																						<TextField fx:id="updateUinId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />
-																						<TextField fx:id="preRegistrationId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />
-																						<HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+																						<GridPane GridPane.columnIndex="1" prefWidth="${preRegParentPane.width}" maxWidth="${preRegParentPane.width}">
 																							<children>
-																								<Button fx:id="fetchBtn" mnemonicParsing="true" onAction="#fetchPreRegistration" styleClass="demoGraphicPaneContentButton" text="%fetch" />
-																								<Button fx:id="scanQr" mnemonicParsing="true" styleClass="demoGraphicPaneContentButton" text="%scanqr" visible="false">
-																									<graphic>
-																										<ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-																											<image>
-																												<Image url="@../images/scan.png" />
-																											</image>
-																										</ImageView>
-																									</graphic>
+																								<Label fx:id="preRegistrationLabel" styleClass="demoGraphicCustomLabel" text="%search_for_Pre_registration_id" GridPane.rowIndex="1" />
+																								<TextField fx:id="updateUinId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />
+																								<TextField fx:id="preRegistrationId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />
+																								<HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+																									<children>
+																										<Button fx:id="fetchBtn" mnemonicParsing="true" onAction="#fetchPreRegistration" styleClass="demoGraphicPaneContentButton" text="%fetch" />
+																										<Button fx:id="scanQr" mnemonicParsing="true" styleClass="demoGraphicPaneContentButton" text="%scanqr" visible="false">
+																											<graphic>
+																												<ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+																													<image>
+																														<Image url="@../images/scan.png" />
+																													</image>
+																												</ImageView>
+																											</graphic>
 
-																								</Button>
+																										</Button>
+																									</children>
+																								</HBox>
 																							</children>
-																						</HBox>
+																							<columnConstraints>
+																								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="49.0" prefWidth="100.0" />
+																								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+																								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="49.0" prefWidth="100.0" />
+																							</columnConstraints>
+																							<rowConstraints>
+																								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																							</rowConstraints>
+																						</GridPane>
 																					</children>
 																					<columnConstraints>
-																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="49.0" prefWidth="100.0" />
 																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="49.0" prefWidth="100.0" />
+																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
+																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
 																					</columnConstraints>
 																					<rowConstraints>
-																						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																						<RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
 																					</rowConstraints>
 																				</GridPane>
 																			</children>
-																			<columnConstraints>
-																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
-																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-																				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-																			</columnConstraints>
-																			<rowConstraints>
-																				<RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-																			</rowConstraints>
 																		</GridPane>
 																	</children>
 																</FlowPane>
