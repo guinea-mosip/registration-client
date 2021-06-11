@@ -3,6 +3,7 @@ package io.mosip.registration.constants;
 import static io.mosip.registration.constants.RegistrationConstants.APPLICATION_ID;
 import static io.mosip.registration.constants.RegistrationConstants.APPLICATION_NAME;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import io.mosip.kernel.core.exception.ExceptionUtils;
@@ -19,6 +20,7 @@ public class RegistrationUIConstants {
 
 	// Key values to read value from messages.properties file
 
+	public static final Locale APPLICATION_LANGUAGE = Locale.FRENCH;
 	public static final ResourceBundle bundle = ApplicationContext.applicationMessagesBundle();
 	public static final String OTP_VALIDITY = bundle.getString("OTP_VALIDITY");
 	public static final String MINUTES = bundle.getString("MINUTES");

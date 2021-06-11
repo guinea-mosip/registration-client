@@ -121,7 +121,7 @@
 		</AnchorPane>
 	</right>
    <bottom>
-	   <GridPane prefHeight="17.0" prefWidth="495.0" styleClass="bottomFooterLogin">
+	   <GridPane prefHeight="17.0" prefWidth="1300.0" styleClass="bottomFooterLogin">
 		   <HBox id="footer-section" prefHeight="0.0" prefWidth="1300.0">
 				<children>
 					<Label prefHeight="17.0" prefWidth="60.0" styleClass="whiteColor" text="%mosip.io" />
