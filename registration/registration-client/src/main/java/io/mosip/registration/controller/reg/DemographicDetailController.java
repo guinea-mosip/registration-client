@@ -997,11 +997,14 @@ public class DemographicDetailController extends BaseController {
 			for (UiSchemaDTO schemaField : validation.getValidationMap().values()) {
 				if (schemaField.getControlType() == null || !schemaField.isInputRequired())
 					continue;
-
+				// Added for age based information
 				if (registrationDTO.getRegistrationCategory().equals(RegistrationConstants.PACKET_TYPE_UPDATE)
-						&& !registrationDTO.getUpdatableFields().contains(schemaField.getId()))
-					continue;
-
+						&& !registrationDTO.getUpdatableFields().contains(schemaField.getId())){
+					if(registrationDTO.getAge() < 18 && schemaField.getGroup().equalsIgnoreCase("Info. du parent/tuteur")){
+					} else {
+						continue;
+					}
+				}
 				addFieldValueToSession(schemaField);
 			}
 		} catch (Exception exception) {
@@ -1166,8 +1169,14 @@ public class DemographicDetailController extends BaseController {
 				updateDemographicScreen(selectionField.getKey(), selectionList, true);
 				updateDemographicScreen(selectionField.getKey() + RegistrationConstants.LOCAL_LANGUAGE, selectionList,
 						true);
-
 			}
+			if(selectionField.getValue().getGroup() != null && (selectionField.getValue().getGroup().equalsIgnoreCase("Prénom(s)") ||
+					selectionField.getValue().getGroup().equalsIgnoreCase("Info. du parent/tuteur"))){
+				updateDemographicScreen(selectionField.getKey(), selectionList, true);
+				updateDemographicScreen(selectionField.getKey() + RegistrationConstants.LOCAL_LANGUAGE, selectionList,
+						true);
+			}
+
 		}
 
 	}
@@ -1239,9 +1248,9 @@ public class DemographicDetailController extends BaseController {
 							case RegistrationConstants.AGE_DATE:
 								String[] dateParts = ((String) value).split("/");
 								if (dateParts.length == 3) {
-									listOfTextField.get(schemaField.getId() + "__" + "dd").setText(dateParts[2]);
+									listOfTextField.get(schemaField.getId() + "__" + "dd").setText(dateParts[0]);
 									listOfTextField.get(schemaField.getId() + "__" + "mm").setText(dateParts[1]);
-									listOfTextField.get(schemaField.getId() + "__" + "yyyy").setText(dateParts[0]);
+									listOfTextField.get(schemaField.getId() + "__" + "yyyy").setText(dateParts[2]);
 								}
 								break;
 							case RegistrationConstants.DROPDOWN:
