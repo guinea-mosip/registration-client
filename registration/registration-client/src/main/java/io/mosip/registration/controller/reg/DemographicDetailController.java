@@ -651,6 +651,11 @@ public class DemographicDetailController extends BaseController {
 
 	public VBox addContentWithTextField(UiSchemaDTO schema, String fieldName, String languageType) {
 		TextField field = new TextField();
+		field.setTextFormatter(new TextFormatter<>((object) -> {
+				object.setText(object.getText().toUpperCase());
+				return object;
+		}));
+
 		Label label = new Label();
 		Label validationMessage = new Label();
 
