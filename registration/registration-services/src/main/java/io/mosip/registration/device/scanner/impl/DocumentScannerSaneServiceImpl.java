@@ -175,14 +175,14 @@ public class DocumentScannerSaneServiceImpl extends DocumentScannerService {
 			SaneSession session = SaneSession.withRemoteSane(
 					InetAddress.getByName(
 							(String) ApplicationContext.map().get(RegistrationConstants.DOCUMENT_SCANNER_HOST)),
-					(Long) ApplicationContext.map().get(RegistrationConstants.DOCUMENT_SCANNER_TIMEOUT),
+					Long.parseLong((String) ApplicationContext.map().getOrDefault(RegistrationConstants.DOCUMENT_SCANNER_TIMEOUT, "20000")),
 					TimeUnit.MILLISECONDS);
 			saneDevices = session.listDevices();
 			session.close();
 		} catch (IOException | SaneException | NullPointerException exception) {
 			LOGGER.error(LOG_REG_DOC_SCAN_CONTROLLER, APPLICATION_NAME, APPLICATION_ID,
 					"Exception in getScannerDevices of " + getClass().getName() + " - "
-							+ ExceptionUtils.getStackTrace(exception));
+							+ exception.getMessage());
 		}
 		return saneDevices;
 	}

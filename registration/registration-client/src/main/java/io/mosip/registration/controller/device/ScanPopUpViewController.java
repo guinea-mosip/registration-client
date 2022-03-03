@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 
 import javax.imageio.ImageIO;
 
+import com.github.sarxos.webcam.Webcam;
 import io.mosip.registration.util.common.RectangleSelection;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
@@ -154,6 +155,14 @@ public class ScanPopUpViewController extends BaseController {
 
 	private boolean isWebCamStream;
 
+	private Thread streamer_thread = null;
+
+	private Webcam webcam = null;
+
+	public Webcam getWebcam() {
+		return webcam;
+	}
+
 	public boolean isWebCamStream() {
 		return isWebCamStream;
 	}
@@ -189,11 +198,12 @@ public class ScanPopUpViewController extends BaseController {
 	 * @param parentControllerObj
 	 * @param title
 	 */
-	public void init(BaseController parentControllerObj, String title) {
+	public void init(BaseController parentControllerObj, String title, Webcam cam) {
 		try {
 			LOGGER.info(LOG_REG_IRIS_CAPTURE_CONTROLLER, APPLICATION_NAME, APPLICATION_ID,
 					"Opening pop-up screen to scan for user registration");
-			
+
+			webcam = cam;
 			streamerValue = new TextField();
 			baseController = parentControllerObj;
 			popupStage = new Stage();
@@ -206,8 +216,7 @@ public class ScanPopUpViewController extends BaseController {
 			scanImage.setPreserveRatio(true);
 			//scanImage.fitWidthProperty().bind(imageViewGridPane.widthProperty());
 			//scanImage.fitHeightProperty().bind(imageViewGridPane.heightProperty());
-			
-			setDefaultImageGridPaneVisibility();
+
 			popupStage.setResizable(false);
 			popupTitle.setText(title);
 
@@ -218,7 +227,7 @@ public class ScanPopUpViewController extends BaseController {
 
 			if (!isDocumentScan) {
 				scene = new Scene(scanPopup);
-				captureBtn.setVisible(false);
+				captureBtn.setVisible(true);
 				saveBtn.setVisible(false);
 				cancelBtn.setVisible(false);
 				cropButton.setVisible(false);
@@ -227,7 +236,6 @@ public class ScanPopUpViewController extends BaseController {
 			} else {
 				LOGGER.info(LOG_REG_IRIS_CAPTURE_CONTROLLER, APPLICATION_NAME, APPLICATION_ID,
 						"Setting doc screen width : " + width);
-
 				LOGGER.info(LOG_REG_IRIS_CAPTURE_CONTROLLER, APPLICATION_NAME, APPLICATION_ID,
 						"Setting doc screen height : " + height);				
 				
@@ -244,6 +252,11 @@ public class ScanPopUpViewController extends BaseController {
 					cropButton.setDisable(true);
 					cancelBtn.setDisable(true);
 					previewBtn.setDisable(true);
+				}
+
+				if(webcam == null) {
+					LOGGER.info("Disabling stream button as webcam is null");
+					streamBtn.setVisible(false);
 				}
 			}
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
@@ -305,6 +318,7 @@ public class ScanPopUpViewController extends BaseController {
 			return;
 		}
 
+		setWebCamStream(false);
 		String docNumber = docCurrentPageNumber.getText();
 		int currentPage = (docNumber == null || docNumber.isEmpty() || docNumber.equals("0")) ? 1 : Integer.valueOf(docNumber);
 
@@ -315,8 +329,7 @@ public class ScanPopUpViewController extends BaseController {
 		}
 		else {
 			baseController.scan(popupStage);
-			generateAlert(RegistrationConstants.ALERT_INFORMATION, RegistrationUIConstants.DOC_CAPTURE_SUCCESS);
-			currentPage = documentScanController.getScannedPages().size();
+			currentPage =  documentScanController.getScannedPages() == null ? 0 : documentScanController.getScannedPages().size();
 		}
 
 		showPreview(true);
@@ -342,7 +355,7 @@ public class ScanPopUpViewController extends BaseController {
 
 		LOGGER.info(LOG_REG_SCAN_CONTROLLER, APPLICATION_NAME, APPLICATION_ID,
 				"Calling exit window to close the popup");
-
+		stopStreaming();
 		biometricsController.stopRCaptureService();
 		biometricsController.stopDeviceSearchService();
 		streamer.stop();
@@ -373,10 +386,10 @@ public class ScanPopUpViewController extends BaseController {
 
 	@FXML
 	private void save() {
-		webcamSarxosServiceImpl.close();
-		setDefaultImageGridPaneVisibility();
+		stopStreaming();
 		// Enable Auto-Logout
 		SessionContext.setAutoLogout(true);
+
 		if (baseController instanceof DocumentScanController) {
 			DocumentScanController documentScanController = (DocumentScanController) baseController;
 			try {
@@ -390,7 +403,8 @@ public class ScanPopUpViewController extends BaseController {
 				}
 
 				documentScanController.attachScannedDocument(popupStage);
-				documentScanController.getScannedPages().clear();
+				if(documentScanController.getScannedPages() != null)
+					documentScanController.getScannedPages().clear();
 				documentScanController.initializePreviewSection();
 				popupStage.close();
 			} catch (IOException | RuntimeException ioException) {
@@ -521,13 +535,10 @@ public class ScanPopUpViewController extends BaseController {
 
 	@FXML
 	public void crop() {
-
 		LOGGER.debug("REGISTRATION - DOCUMENT_SCAN_CONTROLLER", APPLICATION_NAME, RegistrationConstants.APPLICATION_ID,
 				"crop has been selected");
-		isStreamPaused = true;
+		setWebCamStream(false);
 		scanImage.setVisible(true);
-		//RubberBandSelection rubberBandSelection = new RubberBandSelection(imageGroup);
-		//rubberBandSelection.setscanPopUpViewController(this);
 		rectangleSelection = new RectangleSelection(imageGroup);
 
 		LOGGER.debug("REGISTRATION - DOCUMENT_SCAN_CONTROLLER", APPLICATION_NAME, RegistrationConstants.APPLICATION_ID,
@@ -561,14 +572,7 @@ public class ScanPopUpViewController extends BaseController {
 
 		generateAlert(RegistrationConstants.ALERT_INFORMATION, RegistrationUIConstants.CROP_DOC_SUCCESS);
 
-//		if (webcamSarxosServiceImpl.isWebcamConnected()) {
-//			scanImage.setVisible(false);
-//			webcamNode.setVisible(true);
-//		}
-
 		showPreview(true);
-
-//		cropStage.close();
 
 		LOGGER.debug("REGISTRATION - DOCUMENT_SCAN_CONTROLLER", APPLICATION_NAME, RegistrationConstants.APPLICATION_ID,
 				"Saving cropped image completed");
@@ -577,6 +581,7 @@ public class ScanPopUpViewController extends BaseController {
 
 	@FXML
 	public void cancel() {
+		setWebCamStream(false);
 
 		int currentDocPageNumber = Integer.valueOf(docCurrentPageNumber.getText());
 		int pageNumberIndex = currentDocPageNumber - 1;
@@ -674,19 +679,22 @@ public class ScanPopUpViewController extends BaseController {
 
 	@FXML
 	public void stream() {
-
 		showPreview(false);
-		showStream(true);
 
 		cancelBtn.setDisable(true);
 		cropButton.setDisable(true);
 
-		isStreamPaused = false;
+		if(this.webcam != null) {
+			if(getImageGroup().getChildren().isEmpty())
+				getImageGroup().getChildren().add(new ImageView());
+			this.scanImage = (ImageView)getImageGroup().getChildren().get(0);
+			startStream(this.webcam);
+		}
 	}
 
 	@FXML
 	public void preview() {
-		isStreamPaused = true;
+		setWebCamStream(false);
 		showPreview(true);
 
 		if(documentScanController.getScannedPages() != null && !documentScanController.getScannedPages().isEmpty()) {
@@ -697,6 +705,34 @@ public class ScanPopUpViewController extends BaseController {
 		}
 	}
 
+	protected void startStream(Webcam camera) {
+		if(streamer_thread != null) {
+			streamer_thread.interrupt();
+			streamer_thread = null;
+		}
+
+		webcamSarxosServiceImpl.openWebCam(camera, webcamSarxosServiceImpl.getWidth(),
+				webcamSarxosServiceImpl.getHeight());
+		setWebCamStream(true);
+		isStreamPaused = false;
+		streamer_thread = new Thread(new Runnable() {
+			public void run() {
+				while (isWebCamStream()) {
+					try {
+						if (!isStreamPaused()) {
+							getScanImage().setImage(SwingFXUtils.toFXImage(webcamSarxosServiceImpl.captureImage(camera), null));
+						}
+					} catch (Throwable t) {
+						LOGGER.error(RegistrationConstants.DOCUMNET_SCAN_CONTROLLER, APPLICATION_NAME,
+								RegistrationConstants.APPLICATION_ID, ExceptionUtils.getStackTrace(t));
+						setWebCamStream(false);
+					}
+				}
+			}
+		});
+		streamer_thread.start();
+	}
+
 	private void showPreview(boolean isVisible) {
 		isStreamPaused = true;
 		previewOption.setVisible(isVisible);
@@ -705,9 +741,13 @@ public class ScanPopUpViewController extends BaseController {
 		cropButton.setDisable(false);
 	}
 
-	private void showStream(boolean isVisible) {
-
-		isStreamPaused = false;
-
+	public void stopStreaming() {
+		setWebCamStream(false);
+		isStreamPaused = true;
+		webcamSarxosServiceImpl.close(this.webcam);
+		this.webcam = null;
+		webcamSarxosServiceImpl.close();
+		if(streamer_thread != null)
+			streamer_thread.interrupt();
 	}
 }
